@@ -1,6 +1,8 @@
 from bip32utils import BIP32Key
 from bip85_master.bip85.app import bip39
 
+from config import HGS_KEY_PHRASE
+
 # Generate xprv from mnemonic
 """ Example Usage: 
     
@@ -10,11 +12,8 @@ from bip85_master.bip85.app import bip39
     Returns -> "jelly zero knife tumble cliff original hawk submit cute raccoon present fringe"
     
 """
-def generate_mnemonic_from_seed(mnemonic: str, num_words: int, index: int, language: str = 'english'):
+
+def generate_mnemonic_from_seed(num_words: int, index: int, mnemonic: str = HGS_KEY_PHRASE, language: str = 'english'):
     seed = BIP32Key.fromEntropy(mnemonic.encode('utf-8')).ExtendedKey()
 
     return bip39(seed, language, num_words, index)
-
-
-
-
