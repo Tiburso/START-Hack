@@ -21,9 +21,7 @@ from base64 import urlsafe_b64encode, urlsafe_b64decode
 
 from schemas import Wallet, User, Game, Invoice
 
-""" Routes ------------------------------------------------------------------ """
-
-""" Wallet Routes """
+""" Wallet Routes ----------------------------------------------------------- """
 
 @app.route("/wallet/new", methods=["POST"])
 def create_wallet():
@@ -37,7 +35,7 @@ def create_wallet():
 
     return {"id": wallet.id, "mnemonic": wallet.mnemonic}, 200
     
-""" Game Routes """    
+""" Game Routes ------------------------------------------------------------- """    
 
 @app.route("/game/new", methods=["POST"])
 def create_game():
@@ -83,7 +81,7 @@ def get_game_users(game):
  
     return {"users": users}, 200
       
-""" User Routes """    
+""" User Routes -------------------------------------------------------------- """    
     
 @app.route("/user/new", methods=["POST"])
 def create_user(g):
@@ -112,6 +110,8 @@ def buy_game(user, game): # TODO - Add payment processing
    
     # TODO - Receive payment info and connect to BTCPay
    
+
+
     user.games.add(game)
     db.session.commit()
 
