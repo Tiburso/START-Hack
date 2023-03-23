@@ -13,7 +13,9 @@ from config import HGS_KEY_PHRASE
     
 """
 
-def generate_mnemonic_from_seed(num_words: int, index: int, mnemonic: str = HGS_KEY_PHRASE, language: str = 'english'):
+def generate_mnemonic_from_seed(index: int, mnemonic: str = HGS_KEY_PHRASE, language: str = 'english'):
     seed = BIP32Key.fromEntropy(mnemonic.encode('utf-8')).ExtendedKey()
+
+    num_words = len(mnemonic.split(' '))
 
     return bip39(seed, language, num_words, index)
