@@ -49,9 +49,7 @@ class User(db.Model):
 class UserToGame(db.Model):
     __tablename__ = "USER_TO_GAME"
 
-    userId = Column(Integer, ForeignKey("USERS.id"))
-    gameId = Column(Integer, ForeignKey("GAMES.id"))
+    userId = Column(Integer, ForeignKey("USERS.id"), primary_key=True)
+    gameId = Column(Integer, ForeignKey("GAMES.id"), primary_key=True)
 
 # Logs of all transactions
-
-class Invoice(db.Model): pass
