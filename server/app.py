@@ -83,7 +83,7 @@ def get_game_users(game):
     return {"users": users}, 200
 
 # Webhook for when an invoice is settled
-@app.route("/invoices/settled", methods=["POST"])
+@app.route("/invoice/settled", methods=["POST"])
 def invoice_settled():
     json = request.get_json()
 
