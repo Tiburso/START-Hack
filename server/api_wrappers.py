@@ -28,11 +28,13 @@ def generate_invoice(amount: float, gameID: int, userID: int):
 
     requests.post(f"https://localhost/api/v1/stores/{STORE_ID}/invoices", json=json)
 
+
 def get_all_invoices():
     """ Gets all invoices. """
 
     response = requests.get(f"https://localhost/api/v1/stores/{STORE_ID}/invoices")
     return response.json()
+
 
 # Webhook for when an invoice is settled
 @app.route("???", methods=["POST"])
@@ -44,5 +46,5 @@ def invoice_settled():
     gameId = metadata["gameId"]
 
     userToGame = UserToGame(userId=userId, gameId=gameId)
-    db.session.ad d(userToGame)
+    db.session.add(userToGame)
     db.session.commit()
