@@ -73,6 +73,7 @@ All of this behaviour can be seen in `\server\schemas.py` and `\server\app.py` -
 
 ###### Step 8 -- Provide accounting statements of all your Bitcoin wallets using the Bitcoin wallet of choice or the CryptoWorkspace with the transaction lookups and CSV exports. Add additional metadata to each transaction for your accountant to understand each transaction. (5 points)
 
+The accounting statements were obtained through the CryptoWorkspace using the Address Lookup functionality. We opted to include both the PDF exports and the CSV.
 
 ---
 
@@ -180,6 +181,8 @@ Starting from 10 blocks behind...
 ---
 
 ###### Step 12 -- Participants should make sure to acquire the necessary documentation for onboarding with the designated Bitcoin exchange, CryptoBus, to buy or sell Bitcoin for Swiss Francs. They should approach the exchange during the Hack-Challenge and provide their company name to begin the onboarding process. It is important to inquire with the exchange regarding any specific requirements for onboarding. You need to independelty look for the CryptoBus to get a chance for onboarding. (15 points)
+
+After approaching the exchange during the Hack-Challenge, and providing our company name, there were two requirements requested by the exchange: A source of funds for our wallet, and a proof of ownership of the wallet. We obtained the first one through the functionality Address Lookup in the CryptoWorkspace and the NonBlacklist certificate. Using the CryptoWorkspace, this task was significantly easier than using traditional methods. All of the files mentioned above can be found in the git repo.
 
 ---
 
