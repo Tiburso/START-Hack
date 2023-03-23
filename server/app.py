@@ -83,7 +83,7 @@ def get_game_users(game):
     return {"users": users}, 200
 
 # Webhook for when an invoice is settled
-@app.route("???", methods=["POST"])
+@app.route("/invoice/settled", methods=["POST"])
 def invoice_settled():
     json = request.get_json()
 
@@ -91,7 +91,7 @@ def invoice_settled():
     userId = metadata["userId"]
     gameId = metadata["gameId"]
 
-    userToGame = (userId=userId, gameId=gameId)
+    userToGame = UserToGame(userId=userId, gameId=gameId)
     db.session.add(userToGame)
     db.session.commit()
 
