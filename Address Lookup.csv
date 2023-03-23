@@ -1,0 +1,8 @@
+Address,3FcKtQqbAx13LowQQvmC29QaWXs5mmk9Gu
+Balance
+final (BTC),received (BTC),spent (BTC),transactions
+0.01568067,0.01568067,0,1
+Blacklisted,No
+Transactions
+Amount,Block date,Block height,Tx id,Fiat Value,Fiat,At Tx,Tx date
+1568067,Thu, 23 Mar 2023 14:49:02 GMT,782146,1094528f875c08a478fe8f474b8d2322be7cfe1c6d06fb6ca3841766a21207b7,,USD,Yes,-
