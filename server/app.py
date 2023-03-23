@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
+from schemas import Wallet, User, Game, Invoice, UserToGame, db
 
 configs = {
     "SQLALCHEMY_DATABASE_URI": "postgresql://postgres:postgres@localhost:5432/postgres",
@@ -80,7 +81,20 @@ def get_game_users(game):
     users = list(game.users)
  
     return {"users": users}, 200
-      
+
+# Webhook for when an invoice is settled
+@app.route("???", methods=["POST"])
+def invoice_settled():
+    json = request.get_json()
+
+    metadata = json["metadata"]
+    userId = metadata["userId"]
+    gameId = metadata["gameId"]
+
+    userToGame = (userId=userId, gameId=gameId)
+    db.session.add(userToGame)
+    db.session.commit()
+
 """ User Routes -------------------------------------------------------------- """    
     
 @app.route("/user/new", methods=["POST"])
