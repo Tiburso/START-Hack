@@ -47,9 +47,21 @@ nounce: "0d209ddd3982274a5203e6d42ef173714aa472192c01641f351a7a23fbfba9f7"
 
 ---
 
-####### Step 4 -- Ensure you run your Bitcoin node with API access and txindex=1 in your bitcoin.conf file. (10 points)
+###### Step 4 -- Ensure you run your Bitcoin node with API access and txindex=1 in your bitcoin.conf file. (10 points)
 
 We set up the node as it can be seen on the laptop.
 
-####### Step 5 -- 
+###### Step 5 -- Set up your Bitcoin Payment Server (BTCPay) and connect it to your own Bitcoin node
 
+We set up the BTCPay Server in a docker and it can be seen running in the following steps.
+
+###### Step 6 -- Create your first invoice and send the link to Blockfinance ECO AG staff for review (3 points). Use 5€ as the total payment amount.
+![image](https://user-images.githubusercontent.com/47680931/227307657-48beff77-5e24-4e2b-93f5-cb143fe3ce14.png)
+
+###### Step 7 -- Access the API of the Bitcoin payment server and write a wrapper in a scripting language of your choice or set up a small website to: Set up a product for sale; Generate an automated invoice using the API for this product; Check if the invoice was paid, save everything related to the payment in a local database of your choice; Automatically move 75% of the invoice money to your company vault wallet. (https://docs.btcpayserver.org/CustomIntegration/, https://docs.btcpayserver.org/API/Greenfield/v1/)
+
+All of this behaviour can be seen in `\server\schemas.py` and `\server\app.py` - We set up a Flask instance that stores **videogame access keys**, **users**, and even features a **back-office for generating Mnemonics for the employees of the company**. When a game is bought, 75% of its value is instead sent to the 'vault' address of our company. This can all be seen in the following pictures:
+
+
+
+###### 
