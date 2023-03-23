@@ -7,7 +7,7 @@ from flask_cors import CORS
 
 from schemas import Wallet, User, Game, Invoice, UserToGame, db
 
-STORE_ID = ""
+STORE_ID = "Development"
 
 def generate_invoice(amount: float, gameID: int, userID: int):
     """ Generates an invoice. """
@@ -26,8 +26,13 @@ def generate_invoice(amount: float, gameID: int, userID: int):
         "currency": "USD",
     }
 
-    response = requests.post(f"https://localhost/api/v1/stores/{STORE_ID}/invoices", json=json)
+    requests.post(f"https://localhost/api/v1/stores/{STORE_ID}/invoices", json=json)
 
+def get_all_invoices():
+    """ Gets all invoices. """
+
+    response = requests.get(f"https://localhost/api/v1/stores/{STORE_ID}/invoices")
+    return response.json()
 
 # Webhook for when an invoice is settled
 @app.route("???", methods=["POST"])
@@ -39,5 +44,5 @@ def invoice_settled():
     gameId = metadata["gameId"]
 
     userToGame = UserToGame(userId=userId, gameId=gameId)
-    db.session.add(userToGame)
+    db.session.ad d(userToGame)
     db.session.commit()
