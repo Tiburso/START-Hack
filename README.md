@@ -109,4 +109,21 @@ Starting from 10 blocks behind...
         > =:ETH.ETH:0xAAe24Fb18c49bC4034EEb2081B160bE1c40AF425:6116969::0
 ```
 
+---
+
+###### Step 11 -- Create one paperwallet for a newborn baby of one of your employees. (don’t fund it , just create one with a greeting card) (5 points)
+
+![image](https://user-images.githubusercontent.com/47680931/227311856-437c6d1e-a2a9-4ccd-8da6-1d7794afda06.png)
+
+---
+
+###### Step 12 -- Participants should make sure to acquire the necessary documentation for onboarding with the designated Bitcoin exchange, CryptoBus, to buy or sell Bitcoin for Swiss Francs. They should approach the exchange during the Hack-Challenge and provide their company name to begin the onboarding process. It is important to inquire with the exchange regarding any specific requirements for onboarding. You need to independelty look for the CryptoBus to get a chance for onboarding. (15 points)
+
+---
+
+###### Step 13 -- Be creative surprise us and show how it adds value (5 points).
+
+Right now, Steam and other big gaming platforms are fully centralized and can go down at any moment (like Google's platform, Stadia), meaning gamers can lose their games at any moment and not be able to download them anymore.
+By decentralizing both the payment method and the file distribution system (all files are stored in IPFS), we have actually made it so that players can buy games and own them permantently, even if they don't have enough space in their computer to store all their games at once. If they've purchased the game, they'll forever have the link and don't need to concern themselves.
+
 
