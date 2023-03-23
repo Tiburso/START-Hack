@@ -30,14 +30,17 @@ We then used derived a BIP-39 wallet mnemonic with Index 0, becoming our fundrai
 ##### Step 3 -- Raise funds on your fundraising Bitcoin wallet, which is also set up from the BIP-85 wallets, and get funded from the angel investor at the Blockfinance ECO AG booth. To receive your angel investment, you need to sign a message from one of your addresses in your Bitcoin fundraising wallet and send it to the Blockfinance ECO AG team on Discord or personally. Use the  [https://github.com/Blockfinance-ECO/Bitcoin-Value-Assert](https://github.com/Blockfinance-ECO/Bitcoin-Value-Assert)  tool to create the timestamp and message of your fundraising Bitcoin wallet. (10 points)
 We sent our Angel Investor proof of a specific wallet being ours through our data and QR code:
 
-![QR Code Proof](blob:https://imgur.com/4eb4d917-c11d-4b63-8f96-6caf5ec3af6d)
-```json
+![QR Code Proof](blob:https://i.imgur.com/ZpaeRu8.jpg)
+```py
+{
 bitcoin_address: "3FcKtQqbAx13LowQQvmC29QaWXs5mmk9Gu"
 message: "Hello world!"
 application: "Hash Game Store"
 timestamp: "1679540120"
 purpose: "Angel Investment"
 nounce: "0d209ddd3982274a5203e6d42ef173714aa472192c01641f351a7a23fbfba9f7"
+}
 ```
 **Hash**: c498ba920fd3e4d41ae102cd6a9a746bab0d8ced02cadf7cb8ea6cb2fae0a855
 **Derived Key**: 739b34c2494bff2d7e36c89269ecf360f1d11b28e4fd1ee71856d3f052c287b7
+
