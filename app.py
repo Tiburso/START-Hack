@@ -107,9 +107,10 @@ def delete_user(user):
 
 @app.route("/user/<string:user>/buy/<string:game>", methods=["POST"])
 def buy_game(user, game): # TODO - Add payment processing
-    # TODO - Receive payment info and connect to BTCPay
     game: Game = db.session.query(Game).filter_by(id=game).first()
     user: User = db.session.query(User).filter_by(id=user).first()
+   
+    # TODO - Receive payment info and connect to BTCPay
    
     user.games.add(game)
     db.session.commit()
