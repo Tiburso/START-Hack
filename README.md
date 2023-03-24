@@ -79,6 +79,8 @@ The webhook that processes the payment then forwards 75% of the BTC received to 
 
 Uniquely to our store, there is also a **resale marketplace**. If a player buys from the community, those 75% will instead be refunded to the original owner of the gamer whose copy was sold.
 
+Instead of using a local database to get a list of invoices, we instead used the Greenfield API's built-in feature to check for all invoice and relevant information. In the metadata we also include which player and game were associated with each transaction, and even which player sold the copy of the game (if applicable).
+
 ---
 
 ###### Step 8 -- Provide accounting statements of all your Bitcoin wallets using the Bitcoin wallet of choice or the CryptoWorkspace with the transaction lookups and CSV exports. Add additional metadata to each transaction for your accountant to understand each transaction. (5 points)
