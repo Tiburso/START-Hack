@@ -7,6 +7,8 @@ from configs import VAULT_ADDRESS
 import requests
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 
+from datetime import datetime
+
 URL = "http://localhost/api/v1"
 
 # TODO: put this values into a .env file
@@ -179,7 +181,7 @@ def buy_game(user, game): # TODO - Add payment processing
     if r.status_code != 200:
         return Response(status=r.status_code) 
 
-    return jsonify( r.json() ), 200
+    return r.json()["checkoutLink"], 200
 
 @app.route("/user/<string:user>/buy/<string:game>/other", methods=["POST"])
 def buy_game_from_other(user, game):
@@ -187,12 +189,13 @@ def buy_game_from_other(user, game):
 
     # Query the DB to find another user that has the game for sale
     other_user: User = db.session.query(User).filter(User.games.any(name=game)).first()
+    game: Game = db.session.query(Game).filter_by(name=game).scalar()
 
     body = {
         "metadata": {
             "user": user,
-            "game-name": game,
-            "from-user": other_user,
+            "game-name": game.name,
+            "from-user": other_user.name,
         },
         "checkout": {
             "speedPolicy": "HighSpeed",
@@ -220,110 +223,74 @@ def buy_game_from_other(user, game):
     if r.status_code != 200:
         return Response(status=r.status_code) 
 
-    return jsonify( r.json() ), 200
+    return r.json()["checkoutLink"], 200
     
 """ Invoices Routes ---------------------------------------------------------- """
 
 @app.route("/finalize-game-purchase", methods=["POST"])
 def finalize_game_purchase():
+    target_wallet = VAULT_ADDRESS
+    
     req = request.get_json()
         
     meta = req["metadata"]  
-    timestamp = req["timestamp"]
-    
     pay = req["payment"]
     
+    print(req)
     if pay is None:
+        return Response(status=400)
+    
+    if pay["status"] != "Settled":
         return Response(status=400)
     
     value = float(pay["value"])
     
-    if "from-user" not in meta or  meta["from-user"] == "":
-        # add the game to the user 
-        user: User = db.session.query(User).filter_by(name=meta["user"]).scalar()
-        game: Game = db.session.query(Game).filter_by(name=meta["game-name"]).scalar()
-        user.games.add(game)
-        db.session.commit()
-        
-        # need to create a pull payment refering to 75% of the payment 
-        ret_val = value * 0.75
-        
-        body = {
-            "name": "Return fee",
-            "description": "Value returned to vault wallet",
-            "amount": str(ret_val),
-            "currency": "BTC",
-            "period": 604800, # check period 
-            "autoApproveClaims": True,
-            "startsAt": timestamp,
-            "expiresAt": timestamp + 60 * 5, # five minutes to deliver payment to main wallet
-            "paymentMethods": 
-            [
-                "BTC"
-            ]
-        }
-        
-        res = requests.post(URL + f"/stores/{STOREID}/pull-payments", json=body, headers=API_HEADER)
-        
-        if res.status_code != 200:
-            print(res.content)
-            return Response(status=res.status_code)
-        
-        pullPaymentId = res.json()["id"]
-        
-        # finalize that pull payment with a payout
-        body = {
-            "destination": VAULT_ADDRESS,
-            "amount": ret_val,
-            "paymentMethod": "BTC"
-        }
-        
-        res = requests.post(URL + f"/pull-payments/{pullPaymentId}/payouts", json=body, headers=API_HEADER)
+    # add the game to the user 
+    # user: User = db.session.query(User).filter_by(name=meta["user"]).scalar()
+    # game: Game = db.session.query(Game).filter_by(name=meta["game-name"]).scalar()
+    # user.games.add(game)
     
-    else:
-        # Add game to one user and remove from the other
-        user: User = db.session.query(User).filter_by(name=meta["user"]).scalar()
-        game: Game = db.session.query(Game).filter_by(meta["game-name"]).scalar()
-        other_user: User = db.session.query(User).filter_by(name=meta["from-user"]).scalar()
-
-        other_user.games.remove(game)
-        user.games.add(game)
-
-        db.session.commit()
+    # if "from-user" in meta and meta["from-user"] != "":
+    #     other_user: User = db.session.query(User).filter_by(name=meta["from-user"]).scalar()
+    #     other_user.games.remove(game)
+    #     target_wallet = meta["from-user"]
+    
+    # db.session.commit()
+    
+    # need to create a pull payment refering to 75% of the payment 
+    ret_val = value * 0.75
+    timestamp = int(datetime.now().timestamp())
+    body = {
+        "name": "Return fee",
+        "description": "Value returned to vault wallet",
+        "amount": ret_val,
+        "currency": "BTC",
+        "period": 604800, # check period 
+        "autoApproveClaims": True,
+        "startsAt": timestamp,
+        "expiresAt": timestamp + 60 * 20, # twenty minutes to deliver payment to main wallet
+        "paymentMethods": 
+        [
+            "BTC"
+        ]
+    }
+    
+    res = requests.post(URL + f"/stores/{STOREID}/pull-payments", json=body, headers=API_HEADER)
+    
+    if res.status_code != 200:
+        print(res.content, res.reason)
+        return Response(status=res.status_code)
+    
+    pullPaymentId = res.json()["id"]
+    
+    # finalize that pull payment with a payout
+    body = {
+        "destination": target_wallet,
+        "amount": ret_val,
+        "paymentMethod": "BTC"
+    }
         
-        # need to create a pull payment refering to 75% of the payment 
-        ret_val = value * 0.75
-        
-        body = {
-            "name": "Return fee",
-            "description": "Comissions returned to seller",
-            "amount": ret_val,
-            "currency": "BTC",
-            "period": 604800, # check period 
-            "autoApproveClaims": True,
-            "startsAt": timestamp,
-            "expiresAt": timestamp + 60 * 5, # five minutes to deliver payment to main wallet
-            "paymentMethods": 
-            [
-                "BTC"
-            ]
-        }
-        
-        res = requests.post(URL + f"/stores/{STOREID}/pull-payments", json=body, headers=API_HEADER)
-        
-        if res.status_code != 200:
-            return Response(status=400)
-        
-        pullPaymentId = res.json()["id"]
-        
-        # finalize that pull payment with a payout
-        body = {
-            "destination": user.wallet,
-            "amount": ret_val,
-            "paymentMethod": "BTC"
-        }
-        
-        res = requests.post(URL + f"/pull-payments/{pullPaymentId}/payouts", json=body, headers=API_HEADER)
+    res = requests.post(URL + f"/pull-payments/{pullPaymentId}/payouts", json=body, headers=API_HEADER)
     
     return Response(status=res.status_code) 
 
