@@ -1,3 +1,5 @@
+![image](https://user-images.githubusercontent.com/47680931/227472947-3df0e6f9-3dff-400d-9164-ed65eddce1a6.png)
+
 # Hash Game Store - START Hack Report
 **Hash Game Store** is an online videogame store that allows developers to reach more players in a decentralized manner and gives users true ownership of their games via **cryptocurrency payment methods** and **InterPlanetary File System, peer-to-peer** file distribution.  
 
