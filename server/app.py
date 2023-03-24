@@ -149,6 +149,9 @@ def get_users():
 def buy_game(user, game): # TODO - Add payment processing
     game: Game = db.session.query(Game).filter_by(name=game).scalar()
    
+    req = request.get_json()
+    link = req["link"]
+   
     body = {
         "metadata": {
             "user": user,
@@ -161,7 +164,7 @@ def buy_game(user, game): # TODO - Add payment processing
             "expirationMinutes": 90,
             "monitoringMinutes": 90,
             "paymentTolerance": 0,
-            "redirectURL": "string", # probably mudar com frontend
+            "redirectURL": link, # probably mudar com frontend
             "redirectAutomatically": True,
             "requiresRefundEmail": True,
             "checkoutType": None,
