@@ -205,7 +205,6 @@ def buy_game_from_other(user, game):
             "paymentTolerance": 0,
             "redirectURL": "string", # probably mudar com frontend
             "redirectAutomatically": True,
-            "requiresRefundEmail": True,
             "checkoutType": None,
         },
         "receipt": {
@@ -307,9 +306,9 @@ def finalize_game_purchase():
     og_res = requests.post(URL + f"/pull-payments/{pullPaymentId}/payouts", json=body, headers=API_HEADER)
     
     if res.status_code == 200:
-        res = requests.get(URL + f"/stores/{STOREID}/pull-payments")
+        res = requests.get(URL + f"/stores/{STOREID}/pull-payments", headers=API_HEADER)
         
-        pulls = res.content
+        pulls = res.json()
         
         for pull in pulls:
             pull_id = pull["id"]
