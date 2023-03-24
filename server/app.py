@@ -193,6 +193,9 @@ def buy_game_from_other(user, game):
     # Query the DB to find another user that has the game for sale
     other_user: User = db.session.query(User).filter(User.games.any(name=game)).first()
     game: Game = db.session.query(Game).filter_by(name=game).scalar()
+    
+    req = request.get_json()
+    link = req["link"]
 
     body = {
         "metadata": {
@@ -206,7 +209,7 @@ def buy_game_from_other(user, game):
             "expirationMinutes": 90,
             "monitoringMinutes": 90,
             "paymentTolerance": 0,
-            "redirectURL": "string", # probably mudar com frontend
+            "redirectURL": link, # probably mudar com frontend
             "redirectAutomatically": True,
             "checkoutType": None,
         },
