@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MHash Game Store</title>
+    <style>
+        /* Add your own CSS styles here */
+        html {
+            height: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #af0f55;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        header a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
+            padding: 10px;
+        }
+
+        .game-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 10px;
+        }
+
+        .game {
+            display: inline-block;
+            width: 30%;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+            vertical-align: top;
+            border: 1px solid #ccc;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .game h2 {
+            margin-top: 0;
+        }
+
+        .game img {
+            max-width: 100%;
+        }
+
+        .buy-btn {
+            background-color: #af0f55;
+            border: none;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .buy-btn:hover {
+            cursor: pointer;
+            background-color: #555;
+        }
+
+        .buy-community-btn {
+            background-color: #333;
+            border: none;
+            color: #fff;
+            padding: 10px;
+        }
+
+        .buy-community-btn:hover {
+            cursor: pointer;
+            background-color: #999;
+        }
+
+        footer {
+            background-color: #af0f55;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <a href="#">Shop</a>
+            <a href="#">My Games</a>
+            <a href="#">My Wallet</a>
+        </div>
+        <h1>Hash Game Store</h1>
+        <div></div>
+    </header>
+    <main>
+        <div class="game-container">
+            <div class="game">
+                <h2>Idle Paladin</h2>
+                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/1841010/capsule_616x353.jpg?t=1646883142"
+                    alt="Game 1">
+                <p>Description of Game 1</p>
+                <button class="buy-btn">Buy Now</button>
+                <button class="buy-community-btn">Buy from Community</button>
+            </div>
+            <div class="game">
+                <h2>Minecraft</h2>
+                <img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/nintendo_switch_4/H2x1_NSwitch_Minecraft.jpg"
+                    alt="Game 2">
+                <p>Description of Game 2</p>
+                <button class="buy-btn">Buy Now</button>
+                <button class="buy-community-btn">Buy from Community</button>
+            </div>
+            <div class="game">
+                <h2>Doom</h2>
+                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/782330/capsule_616x353.jpg?t=1661971606"
+                    alt="Game 3">
+                <p>Description of Game 3</p>
+                <button class="buy-btn">Buy Now</button>
+                <button class="buy-community-btn">Buy from Community</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        &copy; 2023 Hash Game Store
+    </footer>
+    <script src="script.js">
+    </script>
+</body>
+
+</html>
