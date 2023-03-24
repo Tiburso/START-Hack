@@ -8,18 +8,6 @@ from app import db
 
 """ Domains ----------------------------------------------------------------- """
 
-# Company owned wallets
-
-class Wallet(db.Model):
-    __tablename__ = "WALLETS"
-
-    id   = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(80), unique=True, nullable=False)
-
-    @property
-    def mnemonic(self):
-        return generate_mnemonic_from_seed(self.id)
-
 # Games that are buyable by player users
 
 class Game(db.Model):
@@ -27,6 +15,7 @@ class Game(db.Model):
 
     id       = Column(Integer, primary_key=True, autoincrement=True)
     name     = Column(String(80), unique=True, nullable=False)
+    forSale  = Column(Integer, nullable=False, default=1)
     cost     = Column(Integer, nullable=False)
     
     # turn this into a base64 encoded string
@@ -42,6 +31,7 @@ class User(db.Model):
 
     id       = Column(Integer, primary_key=True, autoincrement=True)
     name     = Column(String(80), unique=True, nullable=False)
+    address  = Column(String(80), unique=True, nullable=False) 
     
     # many-to-many relationship with games
     games: Mapped[Set["Game"]] = relationship(secondary="USER_TO_GAME", back_populates="users")

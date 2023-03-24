@@ -1,7 +1,6 @@
 from bip32utils import BIP32Key
 from bip85_master.bip85.app import bip39
-
-from config import HGS_KEY_PHRASE
+from configs import HGS_KEY_PHRASE
 
 # Generate xprv from mnemonic
 """ Example Usage: 
@@ -19,3 +18,5 @@ def generate_mnemonic_from_seed(index: int, mnemonic: str = HGS_KEY_PHRASE, lang
     num_words = len(mnemonic.split(' '))
 
     return bip39(seed, language, num_words, index)
+
+
