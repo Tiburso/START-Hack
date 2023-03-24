@@ -6,5 +6,5 @@ FUNDRAISING_WALLET = 0
 NEWBORN_WALLET = 100 # Just give them the private and the public key!
 PAYOUT_WALLET = 3
 
-VAULT_WALLET = 2
-VAULT_ADDRESS = "bc1q3dkl4mwdk85dx9kezn3ctaa08e2l05lf5xhn4x"
+VAULT_WALLET = 15
+VAULT_ADDRESS = "bc1qw8zduw9jmrcxpzrfe40hvxqlcq9f4z5nwufhw8"

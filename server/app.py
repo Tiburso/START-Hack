@@ -205,7 +205,6 @@ def buy_game_from_other(user, game):
             "paymentTolerance": 0,
             "redirectURL": "string", # probably mudar com frontend
             "redirectAutomatically": True,
-            "requiresRefundEmail": True,
             "checkoutType": None,
         },
         "receipt": {
@@ -227,35 +226,47 @@ def buy_game_from_other(user, game):
     
 """ Invoices Routes ---------------------------------------------------------- """
 
+@app.route("/game-ownsership", methods=["POST"])
+def game_to_player():
+    req = request.get_json()
+    
+    meta = req["metadata"]  
+    
+    #add the game to the user 
+    user: User = db.session.query(User).filter_by(name=meta["user"]).scalar()
+    game: Game = db.session.query(Game).filter_by(name=meta["game-name"]).scalar()
+    user.games.add(game)
+    
+    if "from-user" in meta and meta["from-user"] != "":
+        other_user: User = db.session.query(User).filter_by(name=meta["from-user"]).scalar()
+        other_user.games.remove(game)
+        target_wallet = meta["from-user"]
+    
+    db.session.commit()
+    
+    return Response(status=200) 
+
 @app.route("/finalize-game-purchase", methods=["POST"])
 def finalize_game_purchase():
-    target_wallet = VAULT_ADDRESS
     
     req = request.get_json()
+    
+    meta = req["metadata"] 
+    
+    target_wallet = VAULT_ADDRESS
+    
+    if "from-user" in meta and meta["from-user"] != "":
+        target_wallet = meta["from-user"]
         
-    meta = req["metadata"]  
-    pay = req["payment"]
-    
     print(req)
-    if pay is None:
-        return Response(status=400)
     
-    if pay["status"] != "Settled":
+    pay = req["payment"]
+    print(pay)
+    if pay is None:
+        print("PAY NONE")
         return Response(status=400)
     
     value = float(pay["value"])
-    
-    # add the game to the user 
-    # user: User = db.session.query(User).filter_by(name=meta["user"]).scalar()
-    # game: Game = db.session.query(Game).filter_by(name=meta["game-name"]).scalar()
-    # user.games.add(game)
-    
-    # if "from-user" in meta and meta["from-user"] != "":
-    #     other_user: User = db.session.query(User).filter_by(name=meta["from-user"]).scalar()
-    #     other_user.games.remove(game)
-    #     target_wallet = meta["from-user"]
-    
-    # db.session.commit()
     
     # need to create a pull payment refering to 75% of the payment 
     ret_val = value * 0.75
@@ -275,6 +286,7 @@ def finalize_game_purchase():
         ]
     }
     
+    print("PULL-PAYMENT")
     res = requests.post(URL + f"/stores/{STOREID}/pull-payments", json=body, headers=API_HEADER)
     
     if res.status_code != 200:
@@ -282,6 +294,7 @@ def finalize_game_purchase():
         return Response(status=res.status_code)
     
     pullPaymentId = res.json()["id"]
+    print(pullPaymentId)
     
     # finalize that pull payment with a payout
     body = {
@@ -290,9 +303,21 @@ def finalize_game_purchase():
         "paymentMethod": "BTC"
     }
         
-    res = requests.post(URL + f"/pull-payments/{pullPaymentId}/payouts", json=body, headers=API_HEADER)
+    og_res = requests.post(URL + f"/pull-payments/{pullPaymentId}/payouts", json=body, headers=API_HEADER)
     
-    return Response(status=res.status_code) 
+    if res.status_code == 200:
+        res = requests.get(URL + f"/stores/{STOREID}/pull-payments", headers=API_HEADER)
+        
+        pulls = res.json()
+        
+        for pull in pulls:
+            pull_id = pull["id"]
+            res = requests.post(URL + f"/pull-payments/{pull_id}/payouts", json=body, headers=API_HEADER)
+
+            if res.status_code != 200:
+                break
+    
+    return Response(status=og_res.status_code) 
 
 @app.route("/invoices/all", methods=["GET"])
 def get_invoices():
