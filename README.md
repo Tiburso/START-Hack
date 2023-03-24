@@ -67,7 +67,17 @@ We set up the BTCPay Server in a docker and it can be seen running in the follow
 
 ###### Step 7 -- Access the API of the Bitcoin payment server and write a wrapper in a scripting language of your choice or set up a small website to: Set up a product for sale; Generate an automated invoice using the API for this product; Check if the invoice was paid, save everything related to the payment in a local database of your choice; Automatically move 75% of the invoice money to your company vault wallet. (https://docs.btcpayserver.org/CustomIntegration/, https://docs.btcpayserver.org/API/Greenfield/v1/)
 
-All of this behaviour can be seen in `\server\schemas.py` and `\server\app.py` - We set up a Flask instance that stores **videogame access keys**, **users**, and even features a **back-office for generating Mnemonics for the employees of the company**. When a game is bought, 75% of its value is instead sent to the 'vault' address of our company. We were asked to store all of the invoice data should be stored in a local database, but we realized the BTCPAY API actually stores all of the invoices automatically so we instead just feature a query to this specific endpoint. This can all be seen in the following pictures:
+All of this behaviour can be seen in `\server\schemas.py` and `\server\app.py` - We set up a Flask instance that stores **videogame access keys**, **users**, and even features a **back-office for generating Mnemonics for the employees of the company**. When a game is bought, 75% of its value is instead sent to the 'vault' address of our company. We were asked to store all of the invoice data should be stored in a local database, but we realized the BTCPAY API actually stores all of the invoices automatically so we instead just feature a query to this specific endpoint.
+
+![Screenshot from 2023-03-24 09-52-07](https://user-images.githubusercontent.com/47680931/227471291-5b6f531b-368a-466b-8c78-9bbfc31e3f17.png)
+
+![Screenshot from 2023-03-24 09-52-36](https://user-images.githubusercontent.com/47680931/227471992-2a1d7167-bd57-4751-b20d-f7c0e179c747.png)
+
+When the player buys a game, we use an API request to create an invoice. Then, we use two separate webhooks to process whether or not the transaction has been paid and to issue the actual ownership of the game.
+
+The webhook that processes the payment then forwards 75% of the BTC received to the vault account.
+
+Uniquely to our store, there is also a **resale marketplace**. If a player buys from the community, those 75% will instead be refunded to the original owner of the gamer whose copy was sold.
 
 ---
 
