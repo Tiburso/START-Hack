@@ -3,7 +3,7 @@
 # Hash Game Store - START Hack Report
 **Hash Game Store** is an online videogame store that allows developers to reach more players in a decentralized manner and gives users true ownership of their games via **cryptocurrency payment methods** and **InterPlanetary File System, peer-to-peer** file distribution.  
 
-# Challenge - BLOCKFINANCE EGO AG
+# Challenge - BLOCKFINANCE ECO AG
 
 ###### Step 1 --   Setting up a Bitcoin wallet structure using BIP-85 (Bitcoin Improvement Proposal 85) involves creating a hierarchical deterministic (HD) wallet to securely store and manage your company's Bitcoin funds. BIP-85 provides a way to structure the HD wallet into multiple segments or accounts, allowing you to allocate specific funds for accounting, salaries, fundraising, etc. By creating multiple BIP39 seeds, you can ensure that each account has its own unique seed for added security and backup purposes. This structure ensures that your company's Bitcoin funds are managed in a secure and organized manner, making it easier to track and access them as needed. (10 points)
 For this step we decided to create our own system to generate BIP39 seeds from a single BIP85. We based ourselves on the original BIP-85 proposal on GitHub and wrote a small function that takes a single mnemonic (the 'master key') and originates others based on the index (an integer) given: 
